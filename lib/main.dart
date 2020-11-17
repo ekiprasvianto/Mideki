@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Mhs>> fetchMhss(http.Client client) async {
   final response =
-      await client.get('https://ekifluter.000webhostapp.com/readDatajson.php');
+      await client.get('https://ekifluter.000webhostapp.com/readDatajsonMid.php');
 
   // Use the compute function to run parseMhss in a separate isolate.
   return compute(parseMhss, response.body);
@@ -17,25 +17,25 @@ Future<List<Mhs>> fetchMhss(http.Client client) async {
 List<Mhs> parseMhss(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<Mhs>((json) => Mhs.fromJson(json)).toList();
+  return parsed.map<Mhs>((json) => guru.fromJson(json)).toList();
 }
 
-class Mhs {
-  final String nim;
-  final String nama;
-  final String kelas;
-  final String kdmatkul;
-  final String email;
+class guru {
+  final String nig;
+  final String nama_guru;
+  final String jenjang_akademik;
+  final String pendidikan_terakhir;
+  final String home_base;
 
-  Mhs({this.nim, this.nama, this.kelas, this.kdmatkul, this.email});
+  Mhs({this.nig, this.nama_guru, this.jenjang_akademik, this.pendidikan_terakhir, this.home_base});
 
-  factory Mhs.fromJson(Map<String, dynamic> json) {
+  factory guru.fromJson(Map<String, dynamic> json) {
     return Mhs(
-      nim: json['nim'] as String,
-      nama: json['nama'] as String,
-      kelas: json['kelas'] as String,
-      kdmatkul: json['kdmatkul'] as String,
-      email: json['email'] as String,
+      nig: json['nig'] as String,
+      nama_guru: json['nama_guru'] as String,
+      jenjang_akademik: json['jenjang_akademik'] as String,
+      pendidikan_terakhir: json['pendidikan_terakhir'] as String,
+     home_base: json['home_base'] as String,
     );
   }
 }
@@ -45,7 +45,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Data Mahasiswa';
+    final appTitle = 'Data Guru';
 
     return MaterialApp(
       title: appTitle,
@@ -80,7 +80,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class MhssList extends StatelessWidget {
-  final List<Mhs> MhsData;
+  final List<guru> guruData;
 
   MhssList({Key key, this.MhsData}) : super(key: key);
 
@@ -117,8 +117,8 @@ return Container(
            //leading: Image.network(
              //   "https://elearning.binadarma.ac.id/pluginfile.php/1/theme_lambda/logo/1602057627/ubd_logo.png",
              // ),
-            title: Text(data[index].nim, style: TextStyle(color: Colors.white)),
-            subtitle: Text(data[index].nama, style: TextStyle(color: Colors.white)),
+            title: Text(data[index].nig, style: TextStyle(color: Colors.white)),
+            subtitle: Text(data[index].nama_guru, style: TextStyle(color: Colors.white)),
           ),
           ButtonTheme.bar(
             child: ButtonBar(
@@ -146,9 +146,9 @@ return Container(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
       ),
-      itemCount: MhsData.length,
+      itemCount: guruData.length,
       itemBuilder: (context, index) {
-        return viewData(MhsData,index);
+        return viewData(guruData,index);
       },
     );
   }
