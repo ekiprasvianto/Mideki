@@ -14,10 +14,10 @@ Future<List<guru>> fetchMhss(http.Client client) async {
 }
 
 // A function that converts a response body into a List<Mhs>.
-List<Mhs> parseMhss(String responseBody) {
+List<guru> parseMhss(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<Mhs>((json) => guru.fromJson(json)).toList();
+  return parsed.map<guru>((json) => guru.fromJson(json)).toList();
 }
 
 class guru {
@@ -27,10 +27,10 @@ class guru {
   final String pendidikan_terakhir;
   final String home_base;
 
-  Mhs({this.nig, this.nama_guru, this.jenjang_akademik, this.pendidikan_terakhir, this.home_base});
+  guru({this.nig, this.nama_guru, this.jenjang_akademik, this.pendidikan_terakhir, this.home_base});
 
   factory guru.fromJson(Map<String, dynamic> json) {
-    return Mhs(
+    return guru(
       nig: json['nig'] as String,
       nama_guru: json['nama_guru'] as String,
       jenjang_akademik: json['jenjang_akademik'] as String,
