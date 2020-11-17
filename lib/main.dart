@@ -71,7 +71,7 @@ class MyHomePage extends StatelessWidget {
           if (snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? MhssList(pegawaiData: snapshot.data)
+              ? MhssList(PegawaiData: snapshot.data)
               : Center(child: CircularProgressIndicator());
         },
       ),
