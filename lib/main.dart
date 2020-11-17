@@ -65,13 +65,13 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: FutureBuilder<List<Mhs>>(
+      body: FutureBuilder<List<guru>>(
         future: fetchMhss(http.Client()),
         builder: (context, snapshot) {
           if (snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? MhssList(MhsData: snapshot.data)
+              ? MhssList(guruData: snapshot.data)
               : Center(child: CircularProgressIndicator());
         },
       ),
@@ -82,7 +82,7 @@ class MyHomePage extends StatelessWidget {
 class MhssList extends StatelessWidget {
   final List<guru> guruData;
 
-  MhssList({Key key, this.MhsData}) : super(key: key);
+  MhssList({Key key, this.guruData}) : super(key: key);
 
 
 
