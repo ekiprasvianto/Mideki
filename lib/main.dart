@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<guru>> fetchMhss(http.Client client) async {
+Future<List<pegawai>> fetchMhss(http.Client client) async {
   final response =
       await client.get('https://ekifluter.000webhostapp.com/readDatajsonMid.php');
 
@@ -14,28 +14,28 @@ Future<List<guru>> fetchMhss(http.Client client) async {
 }
 
 // A function that converts a response body into a List<Mhs>.
-List<guru> parseMhss(String responseBody) {
+List<pegawai> parseMhss(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-  return parsed.map<guru>((json) => guru.fromJson(json)).toList();
+  return parsed.map<pegawai>((json) => pegawai.fromJson(json)).toList();
 }
 
-class guru {
-  final String nig;
-  final String nama_guru;
-  final String jenjang_akademik;
+class pegawai {
+  final String nip;
+  final String nama_pegawai;
+  final String departemen;
+  final String jabatan;
   final String pendidikan_terakhir;
-  final String home_base;
 
-  guru({this.nig, this.nama_guru, this.jenjang_akademik, this.pendidikan_terakhir, this.home_base});
+  pegawai({this.nip, this.nama_pegawai, this.departemen, this.jabatan, this.pendidikan_terakhir});
 
-  factory guru.fromJson(Map<String, dynamic> json) {
-    return guru(
-      nig: json['nig'] as String,
-      nama_guru: json['nama_guru'] as String,
-      jenjang_akademik: json['jenjang_akademik'] as String,
-      pendidikan_terakhir: json['pendidikan_terakhir'] as String,
-     home_base: json['home_base'] as String,
+  factory pegawai.fromJson(Map<String, dynamic> json) {
+    return pegawai(
+      nip: json['nip'] as String,
+      nama_pegawai: json['nama_pegawai'] as String,
+      departemen: json['departemen'] as String,
+      jabatan: json['jabatan'] as String,
+     pendidikan_terakhir: json['pendidikan_terakhir'] as String,
     );
   }
 }
@@ -45,7 +45,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Data Guru';
+    final appTitle = 'Data Pegawai';
 
     return MaterialApp(
       title: appTitle,
@@ -65,13 +65,13 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: FutureBuilder<List<guru>>(
+      body: FutureBuilder<List<pegawai>>(
         future: fetchMhss(http.Client()),
         builder: (context, snapshot) {
           if (snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? MhssList(guruData: snapshot.data)
+              ? MhssList(pegawaiData: snapshot.data)
               : Center(child: CircularProgressIndicator());
         },
       ),
@@ -80,7 +80,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class MhssList extends StatelessWidget {
-  final List<guru> guruData;
+  final List<pegawai> guruData;
 
   MhssList({Key key, this.guruData}) : super(key: key);
 
@@ -118,7 +118,7 @@ return Container(
              //   "https://elearning.binadarma.ac.id/pluginfile.php/1/theme_lambda/logo/1602057627/ubd_logo.png",
              // ),
             title: Text(data[index].nig, style: TextStyle(color: Colors.white)),
-            subtitle: Text(data[index].nama_guru, style: TextStyle(color: Colors.white)),
+            subtitle: Text(data[index].nama_pegawai, style: TextStyle(color: Colors.white)),
           ),
           ButtonTheme.bar(
             child: ButtonBar(
@@ -146,9 +146,9 @@ return Container(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
       ),
-      itemCount: guruData.length,
+      itemCount: pegawaiData.length,
       itemBuilder: (context, index) {
-        return viewData(guruData,index);
+        return viewData(pegawaiData,index);
       },
     );
   }
