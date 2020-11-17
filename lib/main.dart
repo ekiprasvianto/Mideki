@@ -71,7 +71,7 @@ class MyHomePage extends StatelessWidget {
           if (snapshot.hasError) print(snapshot.error);
 
           return snapshot.hasData
-              ? MhssList(PegawaiData: snapshot.data)
+              ? MhssList(pegawaiData: snapshot.data)
               : Center(child: CircularProgressIndicator());
         },
       ),
@@ -80,9 +80,9 @@ class MyHomePage extends StatelessWidget {
 }
 
 class MhssList extends StatelessWidget {
-  final List<pegawai> guruData;
+  final List<pegawai> pegawaiData;
 
-  MhssList({Key key, this.guruData}) : super(key: key);
+  MhssList({Key key, this.pegawaiData}) : super(key: key);
 
 
 
